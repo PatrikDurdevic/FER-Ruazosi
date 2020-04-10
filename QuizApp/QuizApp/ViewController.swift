@@ -2,27 +2,180 @@
 //  ViewController.swift
 //  QuizApp
 //
-//  Created by Tea Durdevic on 10/04/2020.
+//  Created by Patrik Durdevic on 10/04/2020.
 //  Copyright © 2020 Patrik Đurđević. All rights reserved.
 //
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
 
+    @IBOutlet weak var backgroundImage: UIImageView!
+    var backgrounds: NSDictionary?
+    var bgTimer: Timer?
+    
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
+    @IBOutlet weak var signinButton: UIButton!
+    @IBOutlet weak var buttonView: UIView!
+    
+    @IBOutlet weak var imageInfoLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        initTextFieldDesign()
+        addMotionToBackground()
+        loadBackgrounds()
+        bgTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(changeBackgroundImage), userInfo: nil, repeats: true)
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        bgTimer?.invalidate()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        attemptSignIn()
+        return true
+    }
+    
+    @IBAction func signIn(_ sender: Any) {
+        attemptSignIn()
+    }
+    
+    func attemptSignIn() {
+        view.endEditing(true)
+        UIView.animate(withDuration: 0.5, animations: {
+            self.buttonView.alpha = 0
+        })
+        
+        let url = URL(string: "https://iosquiz.herokuapp.com/api/session")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        let parameters: [String: String] = [
+            "username": usernameField.text!,
+            "password": passwordField.text!
+        ]
+        request.httpBody = parameters.percentEncoded()
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data,
+                let response = response as? HTTPURLResponse,
+                error == nil else {
+                print("error", error ?? "Unknown error")
+                return
+            }
 
-    @IBAction func clearAll(_ sender: Any) {
-        print("\((sender as AnyObject).currentTitle ?? " ") button tap!")
-        usernameField.text = ""
-        passwordField.text = ""
+            guard (200 ... 299) ~= response.statusCode else {
+                print("Wrong credentials")
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "Login unsuccessful", message: "The username or password you entered is invalid!", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    UIView.animate(withDuration: 0.5, animations: {
+                        self.buttonView.alpha = 1
+                    })
+                }
+                return
+            }
+
+            if let responseString = String(data: data, encoding: .utf8) {
+                UserDefaults.standard.set(responseString.convertToDictionary(), forKey: "token")
+            }
+        }
+
+        task.resume()
+    }
+    
+    @IBAction func seePassword(_ sender: Any) {
+        passwordField.isSecureTextEntry = false
+    }
+    
+    @IBAction func unseePassword(_ sender: Any) {
+        passwordField.isSecureTextEntry = true
+    }
+    
+    func initTextFieldDesign() {
+        let usernameBottomLine = CALayer()
+        usernameBottomLine.frame = CGRect(x: 0.0, y: usernameField.frame.height - 1, width: usernameField.frame.width, height: 1.0)
+        usernameBottomLine.backgroundColor = UIColor.white.cgColor
+        usernameField.borderStyle = UITextField.BorderStyle.none
+        usernameField.layer.addSublayer(usernameBottomLine)
+        usernameField.delegate = self
+        
+        let passwordBottomline = CALayer()
+        passwordBottomline.frame = CGRect(x: 0.0, y: passwordField.frame.height - 1, width: passwordField.frame.width, height: 1.0)
+        passwordBottomline.backgroundColor = UIColor.white.cgColor
+        passwordField.borderStyle = UITextField.BorderStyle.none
+        passwordField.layer.addSublayer(passwordBottomline)
+        passwordField.isSecureTextEntry = true
+        passwordField.delegate = self
+    }
+    
+    func addMotionToBackground() {
+        let min = CGFloat(-30)
+        let max = CGFloat(30)
+              
+        let xMotion = UIInterpolatingMotionEffect(keyPath: "layer.transform.translation.x", type: .tiltAlongHorizontalAxis)
+        xMotion.minimumRelativeValue = min
+        xMotion.maximumRelativeValue = max
+              
+        let yMotion = UIInterpolatingMotionEffect(keyPath: "layer.transform.translation.y", type: .tiltAlongVerticalAxis)
+        yMotion.minimumRelativeValue = min
+        yMotion.maximumRelativeValue = max
+              
+        let motionEffectGroup = UIMotionEffectGroup()
+        motionEffectGroup.motionEffects = [xMotion,yMotion]
+
+        backgroundImage.addMotionEffect(motionEffectGroup)
+    }
+    
+    func loadBackgrounds() {
+        if let path = Bundle.main.path(forResource: "Backgrounds", ofType: "plist") {
+            backgrounds = NSDictionary(contentsOfFile: path)
+        }
+    }
+    
+    @objc func changeBackgroundImage() {
+        if let bgs = backgrounds {
+            let index = Int.random(in: 0..<bgs.allKeys.count)
+            let bg = bgs[bgs.allKeys[index]] as! NSDictionary
+            UIView.transition(with: backgroundImage,
+                              duration: 0.5,
+                              options: .transitionCrossDissolve,
+                              animations: { self.backgroundImage.image = UIImage(named: bgs.allKeys[index] as! String) },
+                              completion: nil)
+            UIView.transition(with: imageInfoLabel,
+                              duration: 0.5,
+                              options: .transitionCrossDissolve,
+                              animations: { self.imageInfoLabel.text = (bg["name"] as! String) + " by " + (bg["author"] as! String) },
+                              completion: nil)
+        }
     }
     
 }
 
+extension Dictionary {
+    func percentEncoded() -> Data? {
+        return map { key, value in
+            let escapedKey = "\(key)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+            let escapedValue = "\(value)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+            return escapedKey + "=" + escapedValue
+        }
+        .joined(separator: "&")
+        .data(using: .utf8)
+    }
+}
+
+extension String {
+    func convertToDictionary() -> [String: Any]? {
+        if let data = data(using: .utf8) {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        return nil
+    }
+}

@@ -13,6 +13,7 @@
 		8DB589682440E9D70045180D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8DB589662440E9D70045180D /* Main.storyboard */; };
 		8DB5896A2440E9DA0045180D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8DB589692440E9DA0045180D /* Assets.xcassets */; };
 		8DB5896D2440E9DA0045180D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8DB5896B2440E9DA0045180D /* LaunchScreen.storyboard */; };
+		8DC15A762440F5E600E4B497 /* Backgrounds.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8DC15A752440F5E600E4B497 /* Backgrounds.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		8DB589692440E9DA0045180D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8DB5896C2440E9DA0045180D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8DB5896E2440E9DA0045180D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8DC15A752440F5E600E4B497 /* Backgrounds.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Backgrounds.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 				8DB589622440E9D70045180D /* SceneDelegate.swift */,
 				8DB589642440E9D70045180D /* ViewController.swift */,
 				8DB589662440E9D70045180D /* Main.storyboard */,
+				8DC15A752440F5E600E4B497 /* Backgrounds.plist */,
 				8DB589692440E9DA0045180D /* Assets.xcassets */,
 				8DB5896B2440E9DA0045180D /* LaunchScreen.storyboard */,
 				8DB5896E2440E9DA0045180D /* Info.plist */,
@@ -127,6 +130,7 @@
 			files = (
 				8DB5896D2440E9DA0045180D /* LaunchScreen.storyboard in Resources */,
 				8DB5896A2440E9DA0045180D /* Assets.xcassets in Resources */,
+				8DC15A762440F5E600E4B497 /* Backgrounds.plist in Resources */,
 				8DB589682440E9D70045180D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

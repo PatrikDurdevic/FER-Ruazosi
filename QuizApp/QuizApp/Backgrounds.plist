@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bg_1</key>
+	<dict>
+		<key>author</key>
+		<string>Tom Li</string>
+		<key>name</key>
+		<string>Burj Khalifa</string>
+	</dict>
+	<key>bg_2</key>
+	<dict>
+		<key>author</key>
+		<string>Giota Sakellariou</string>
+		<key>name</key>
+		<string>Eiffel Tower</string>
+	</dict>
+	<key>bg_3</key>
+	<dict>
+		<key>author</key>
+		<string>Aldiyar</string>
+		<key>name</key>
+		<string>Red Flowers</string>
+	</dict>
+	<key>bg_4</key>
+	<dict>
+		<key>author</key>
+		<string>Sam Willis</string>
+		<key>name</key>
+		<string>Night Sky</string>
+	</dict>
+</dict>
+</plist>
