@@ -14,6 +14,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     var backgrounds: NSDictionary?
     var bgTimer: Timer?
     
+    @IBOutlet weak var usernameTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var signinButton: UIButton!
@@ -24,14 +25,31 @@ class ViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        initTextFieldDesign()
         addMotionToBackground()
         loadBackgrounds()
         bgTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(changeBackgroundImage), userInfo: nil, repeats: true)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        initTextFieldDesign()
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         bgTimer?.invalidate()
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.usernameTopConstraint.constant = 20
+        UIView.animate(withDuration: 0.2, animations: {
+            self.view.layoutIfNeeded()
+        })
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.usernameTopConstraint.constant = 80
+        UIView.animate(withDuration: 0.2, animations: {
+            self.view.layoutIfNeeded()
+        })
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -96,6 +114,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     func initTextFieldDesign() {
+        print("Init text field design")
         let usernameBottomLine = CALayer()
         usernameBottomLine.frame = CGRect(x: 0.0, y: usernameField.frame.height - 1, width: usernameField.frame.width, height: 1.0)
         usernameBottomLine.backgroundColor = UIColor.white.cgColor
