@@ -28,10 +28,18 @@ class ViewController: UIViewController, UITextFieldDelegate {
         addMotionToBackground()
         loadBackgrounds()
         bgTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(changeBackgroundImage), userInfo: nil, repeats: true)
+        let tapRecognizer = TapGestureRecognizer {
+            self.view.endEditing(true)
+        }
+        view.addGestureRecognizer(tapRecognizer)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         initTextFieldDesign()
+        
+        if let _ = UserDefaults.standard.object(forKey: "token") {
+            self.presentQuiz()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -98,11 +106,27 @@ class ViewController: UIViewController, UITextFieldDelegate {
             }
 
             if let responseString = String(data: data, encoding: .utf8) {
-                UserDefaults.standard.set(responseString.convertToDictionary(), forKey: "token")
+                DispatchQueue.main.async {
+                    self.loginSuccess(token: responseString.convertToDictionary())
+                }
             }
         }
 
         task.resume()
+    }
+    
+    func loginSuccess(token: [String: Any]?) {
+        UserDefaults.standard.set(token, forKey: "token")
+        presentQuiz()
+    }
+    
+    func presentQuiz() {
+        let quizVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "Quiz") as! QuizViewController
+        let navigationController = UINavigationController(rootViewController: quizVC)
+        navigationController.modalTransitionStyle = .crossDissolve
+        navigationController.modalPresentationStyle = .fullScreen
+        navigationController.navigationBar.prefersLargeTitles = true
+        present(navigationController, animated: true, completion: nil)
     }
     
     @IBAction func seePassword(_ sender: Any) {
@@ -114,7 +138,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     func initTextFieldDesign() {
-        print("Init text field design")
         let usernameBottomLine = CALayer()
         usernameBottomLine.frame = CGRect(x: 0.0, y: usernameField.frame.height - 1, width: usernameField.frame.width, height: 1.0)
         usernameBottomLine.backgroundColor = UIColor.white.cgColor
@@ -174,27 +197,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
 }
 
-extension Dictionary {
-    func percentEncoded() -> Data? {
-        return map { key, value in
-            let escapedKey = "\(key)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-            let escapedValue = "\(value)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-            return escapedKey + "=" + escapedValue
-        }
-        .joined(separator: "&")
-        .data(using: .utf8)
-    }
-}
+final class TapGestureRecognizer: UITapGestureRecognizer {
+    private var action: () -> Void
 
-extension String {
-    func convertToDictionary() -> [String: Any]? {
-        if let data = data(using: .utf8) {
-            do {
-                return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
-        return nil
+    init(action: @escaping () -> Void) {
+        self.action = action
+        super.init(target: nil, action: nil)
+        self.addTarget(self, action: #selector(execute))
+    }
+
+    @objc private func execute() {
+        action()
     }
 }
