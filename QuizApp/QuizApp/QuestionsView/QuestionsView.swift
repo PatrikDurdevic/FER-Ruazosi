@@ -19,7 +19,7 @@ class QuestionsView: UIView {
     
     var currentQuestion = 0
     var numberOfCorrect = 0
-    var startTime: TimeInterval!
+    var startTime: CFAbsoluteTime!
     
     func setQuestions(questions: [Question], quiz: Quiz) {
         self.questions = questions
@@ -27,7 +27,7 @@ class QuestionsView: UIView {
         
         self.totalQuestionsLabel.text = String(questions.count)
         
-        startTime = NSDate().timeIntervalSince1970
+        startTime = CFAbsoluteTimeGetCurrent()
         
         //scrollView = UIScrollView(frame: CGRect(x: 0, y: 200, width: 320, height: frame.height - 200))
         scrollView = UIScrollView(frame: CGRect(x: 0, y: 100, width: frame.width, height: frame.height - 100))
@@ -73,7 +73,7 @@ class QuestionsView: UIView {
     }
     
     func endQuiz() {
-        quiz.reportScore(time: Int(NSDate().timeIntervalSince1970 - startTime), numberCorrect: numberOfCorrect)
+        quiz.reportScore(time: CFAbsoluteTimeGetCurrent() - startTime, numberCorrect: numberOfCorrect)
         self.removeFromSuperview()
     }
 }
