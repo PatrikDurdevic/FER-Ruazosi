@@ -1,4 +1,4 @@
-# FER-Ruazosi
+# FER RUAZOSI Final Project
 Razvoj usluga i aplikacija za operacijski sustav iOS
 - predmet na Sveučilištu u Zagrebu, Fakultet elektrotehnike i računarstva
 
