@@ -68,6 +68,7 @@ class QuizViewController: UIViewController {
           configureCell: { dataSource, tableView, indexPath, item in
             let cell = tableView.dequeueReusableCell(withIdentifier: "QuizCell", for: indexPath) as! QuizTableViewCell
             cell.configureWithQuiz(quiz: item)
+            cell.selectionStyle = .none
             return cell
         })
         
@@ -88,12 +89,18 @@ class QuizViewController: UIViewController {
         }
 
         Observable.just(sections)
-          .bind(to: tableView.rx.items(dataSource: dataSource))
-          .disposed(by: disposeBag)
+        .bind(to: tableView.rx.items(dataSource: dataSource))
+        .disposed(by: disposeBag)
         
-        tableView.rx.modelSelected(Quiz.self).subscribe(onNext: { quiz in
-            print(quiz.title)
-        }).disposed(by: disposeBag)
+        Observable
+        .zip(tableView.rx.itemSelected, tableView.rx.modelSelected(Quiz.self))
+        .bind { [unowned self] indexPath, quiz in
+            self.tableView.deselectRow(at: indexPath, animated: true)
+            let quizVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "QuizTask") as! QuizTaskViewController
+            quizVC.quiz = quiz
+            self.navigationController!.pushViewController(quizVC, animated: true)
+        }
+        .disposed(by: disposeBag)
     }
     /*
     // MARK: - Navigation
