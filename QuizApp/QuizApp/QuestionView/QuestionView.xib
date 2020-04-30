@@ -20,10 +20,10 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q7v-jW-myI">
-                    <rect key="frame" x="20" y="137.5" width="374" height="50"/>
+                    <rect key="frame" x="20" y="137.5" width="374" height="40"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="50" id="DFQ-BD-kO8"/>
+                        <constraint firstAttribute="height" constant="40" id="DFQ-BD-kO8"/>
                     </constraints>
                     <state key="normal" title="First answer">
                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -33,10 +33,10 @@
                     </connections>
                 </button>
                 <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u6H-D6-h7O">
-                    <rect key="frame" x="20" y="195.5" width="374" height="50"/>
+                    <rect key="frame" x="20" y="193.5" width="374" height="40"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="50" id="8RW-Gx-p2w"/>
+                        <constraint firstAttribute="height" constant="40" id="8RW-Gx-p2w"/>
                     </constraints>
                     <state key="normal" title="Second answer">
                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -46,10 +46,10 @@
                     </connections>
                 </button>
                 <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PU6-Xd-pLj">
-                    <rect key="frame" x="20" y="253.5" width="374" height="50"/>
+                    <rect key="frame" x="20" y="249.5" width="374" height="40"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="50" id="HOW-vN-aeL"/>
+                        <constraint firstAttribute="height" constant="40" id="HOW-vN-aeL"/>
                     </constraints>
                     <state key="normal" title="Third answer">
                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -59,10 +59,10 @@
                     </connections>
                 </button>
                 <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kr4-sC-Afu">
-                    <rect key="frame" x="20" y="311.5" width="374" height="50"/>
+                    <rect key="frame" x="20" y="305.5" width="374" height="40"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="50" id="MoY-DC-o1P"/>
+                        <constraint firstAttribute="height" constant="40" id="MoY-DC-o1P"/>
                     </constraints>
                     <state key="normal" title="Second answer">
                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -81,13 +81,13 @@
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="PU6-Xd-pLj" secondAttribute="trailing" constant="20" id="H6v-YR-uGX"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="q7v-jW-myI" secondAttribute="trailing" constant="20" id="Iar-C8-InJ"/>
                 <constraint firstItem="g4U-Fc-gS2" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="P1i-LU-8MR"/>
-                <constraint firstItem="kr4-sC-Afu" firstAttribute="top" secondItem="PU6-Xd-pLj" secondAttribute="bottom" constant="8" id="RbU-bW-win"/>
+                <constraint firstItem="kr4-sC-Afu" firstAttribute="top" secondItem="PU6-Xd-pLj" secondAttribute="bottom" constant="16" id="RbU-bW-win"/>
                 <constraint firstItem="kr4-sC-Afu" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="W0X-eZ-bew"/>
                 <constraint firstItem="u6H-D6-h7O" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="ZfC-a1-C4k"/>
-                <constraint firstItem="u6H-D6-h7O" firstAttribute="top" secondItem="q7v-jW-myI" secondAttribute="bottom" constant="8" id="dgf-7Y-whF"/>
+                <constraint firstItem="u6H-D6-h7O" firstAttribute="top" secondItem="q7v-jW-myI" secondAttribute="bottom" constant="16" id="dgf-7Y-whF"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="kr4-sC-Afu" secondAttribute="trailing" constant="20" id="e1O-SQ-r65"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="g4U-Fc-gS2" secondAttribute="trailing" constant="20" id="lb0-Ub-RA7"/>
-                <constraint firstItem="PU6-Xd-pLj" firstAttribute="top" secondItem="u6H-D6-h7O" secondAttribute="bottom" constant="8" id="qsT-jH-lcI"/>
+                <constraint firstItem="PU6-Xd-pLj" firstAttribute="top" secondItem="u6H-D6-h7O" secondAttribute="bottom" constant="16" id="qsT-jH-lcI"/>
                 <constraint firstItem="g4U-Fc-gS2" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="20" id="yY0-Q8-wKN"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>

@@ -8,21 +8,30 @@
 
 import UIKit
 
-class QuestionsView: UIView, UIScrollViewDelegate {
+class QuestionsView: UIView {
 
     @IBOutlet weak var totalQuestionsLabel: UILabel!
     @IBOutlet weak var currentQuestionLabel: UILabel!
     var scrollView: UIScrollView!
 
     private var questions: [Question]!
+    private var quiz: Quiz!
     
-    func setQuestions(questions: [Question]) {
+    var currentQuestion = 0
+    var numberOfCorrect = 0
+    var startTime: TimeInterval!
+    
+    func setQuestions(questions: [Question], quiz: Quiz) {
         self.questions = questions
+        self.quiz = quiz
         
         self.totalQuestionsLabel.text = String(questions.count)
         
+        startTime = NSDate().timeIntervalSince1970
+        
         //scrollView = UIScrollView(frame: CGRect(x: 0, y: 200, width: 320, height: frame.height - 200))
-        scrollView = UIScrollView(frame: CGRect(x: 0, y: 200, width: 320, height: frame.height - 200))
+        scrollView = UIScrollView(frame: CGRect(x: 0, y: 100, width: frame.width, height: frame.height - 100))
+        //scrollView.translatesAutoresizingMaskIntoConstraints = true
         print(frame.width)
         
         var index: Int = 0
@@ -31,19 +40,40 @@ class QuestionsView: UIView, UIScrollViewDelegate {
             questionView.frame.size = scrollView.frame.size
             questionView.setQuestion(question: question)
             
-            let offset = scrollView.frame.width * CGFloat(index)
-            questionView.frame.origin.x += 320 * CGFloat(index)
+            questionView.frame.origin.x += frame.width * CGFloat(index)
             
             scrollView.addSubview(questionView)
             index += 1
         }
-        scrollView.isUserInteractionEnabled = true
-        scrollView.isScrollEnabled = true
-        scrollView.delegate = self
+        scrollView.setNeedsLayout()
+        scrollView.layoutIfNeeded()
+        scrollView.isScrollEnabled = false
+        scrollView.contentSize = CGSize(width: CGFloat(frame.size.width * CGFloat(questions.count)), height: scrollView.frame.height)
         addSubview(scrollView)
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    func nextQuestion() {
+        currentQuestion += 1
         
+        if currentQuestion == questions.count {
+            endQuiz()
+        }
+        
+        var offset = scrollView.contentOffset
+        offset.x += scrollView.frame.width
+        scrollView.setContentOffset(offset, animated: true)
+        
+        DispatchQueue.main.async {
+            UIView.transition(with: self.currentQuestionLabel,
+            duration: 0.5,
+            options: .transitionCrossDissolve,
+            animations: { self.currentQuestionLabel.text = "\(self.currentQuestion + 1)" },
+            completion: nil)
+        }
+    }
+    
+    func endQuiz() {
+        quiz.reportScore(time: Int(NSDate().timeIntervalSince1970 - startTime), numberCorrect: numberOfCorrect)
+        self.removeFromSuperview()
     }
 }

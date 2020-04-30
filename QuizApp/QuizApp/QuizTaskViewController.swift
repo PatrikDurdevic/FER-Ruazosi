@@ -55,11 +55,13 @@ class QuizTaskViewController: UIViewController {
     }
 
     @IBAction func startQuiz(_ sender: Any) {
-        var questionsView: QuestionsView = .fromNib()
+        let questionsView: QuestionsView = .fromNib()
         questionsView.frame = view.bounds
         
-        questionsView.setQuestions(questions: quiz.questions)
-        view.addSubview(questionsView)
+        questionsView.setQuestions(questions: quiz.questions, quiz: quiz)
+        
+        let currentWindow: UIWindow? = UIApplication.shared.keyWindow
+        currentWindow?.addSubview(questionsView)
     }
     
     /*

@@ -10,10 +10,10 @@ import UIKit
 
 class QuestionView: UIView {
 
-
     @IBOutlet var answerButtons: [UIButton]!
     @IBOutlet weak var questionLabel: UILabel!
     private var question: Question!
+    private var submitted = false
     
     func setQuestion(question: Question) {
         self.question = question
@@ -25,12 +25,26 @@ class QuestionView: UIView {
     }
     
     @IBAction func submitAnswer(_ sender: Any) {
-        let button = sender as! UIButton
-        if button.tag == question.correct_answer {
-            button.backgroundColor = .green
-        } else {
-            button.backgroundColor = .red
+        if submitted {
+            return
         }
+        submitted = true
+        
+        let button = sender as! UIButton
+        UIView.transition(with: button,
+        duration: 0.5,
+        options: .transitionCrossDissolve,
+        animations: {
+            if button.tag == self.question.correct_answer {
+                button.backgroundColor = .green
+            } else {
+                button.backgroundColor = .red
+            }
+        },
+        completion: { value in
+            (self.superview?.superview as? QuestionsView)?.nextQuestion()
+            (self.superview?.superview as? QuestionsView)?.numberOfCorrect += 1
+        })
     }
     
 }
