@@ -7,16 +7,23 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
+import RxDataSources
 
 class QuizViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     private var gradientLayer = CAGradientLayer()
+    private var disposeBag = DisposeBag()
+    private var quizzes: [Quiz] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         navigationItem.title = "PopQuiz"
+        
+        loadQuizzes()
     }
     
     override func viewDidLayoutSubviews() {
@@ -39,7 +46,51 @@ class QuizViewController: UIViewController {
         tableView.backgroundView = backgroundView
     }
     
+    func loadQuizzes() {
+        let req = URLRequest(url: URL(string: "https://iosquiz.herokuapp.com/api/quizzes")!)
+        let responseJSON = URLSession.shared.rx.json(request: req)
+        responseJSON.subscribe(onNext: { json in
+            do {
+                let jsonData = try JSONSerialization.data(withJSONObject: (json as! NSDictionary)["quizzes"]!)
+                let quizzes = try JSONDecoder().decode([Quiz].self, from: jsonData)
+                self.quizzes = quizzes
+                DispatchQueue.main.async {
+                    self.initTableView()
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+        }).disposed(by: disposeBag)
+    }
+    
+    func initTableView() {
+        let dataSource = RxTableViewSectionedReloadDataSource<QuizSection>(
+          configureCell: { dataSource, tableView, indexPath, item in
+            let cell = tableView.dequeueReusableCell(withIdentifier: "QuizCell", for: indexPath) as! QuizTableViewCell
+            cell.configureWithQuiz(quiz: item)
+            return cell
+        })
+        
+        dataSource.titleForHeaderInSection = { dataSource, index in
+            return dataSource.sectionModels[index].header
+        }
+        
+        var uniqueCategories:[String] = []
+        for quiz in quizzes {
+            if !uniqueCategories.contains(quiz.category) {
+                uniqueCategories.append(quiz.category)
+            }
+        }
+        
+        var sections:[QuizSection] = []
+        for category in uniqueCategories {
+            sections.append(QuizSection(header: category, items: quizzes.filter({ $0.category == category })))
+        }
 
+        Observable.just(sections)
+          .bind(to: tableView.rx.items(dataSource: dataSource))
+          .disposed(by: disposeBag)
+    }
     /*
     // MARK: - Navigation
 
