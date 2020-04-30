@@ -2,7 +2,7 @@
 //  QuizViewController.swift
 //  QuizApp
 //
-//  Created by Tea Durdevic on 15/04/2020.
+//  Created by Patrik Durdevic on 15/04/2020.
 //  Copyright © 2020 Patrik Đurđević. All rights reserved.
 //
 
@@ -90,6 +90,10 @@ class QuizViewController: UIViewController {
         Observable.just(sections)
           .bind(to: tableView.rx.items(dataSource: dataSource))
           .disposed(by: disposeBag)
+        
+        tableView.rx.modelSelected(Quiz.self).subscribe(onNext: { quiz in
+            print(quiz.title)
+        }).disposed(by: disposeBag)
     }
     /*
     // MARK: - Navigation
