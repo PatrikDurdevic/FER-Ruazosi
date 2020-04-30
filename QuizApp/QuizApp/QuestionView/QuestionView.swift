@@ -20,7 +20,7 @@ class QuestionView: UIView {
         
         questionLabel.text = question.question
         for button in answerButtons {
-            button.titleLabel?.text = question.answers[button.tag]
+            button.setTitle(question.answers[button.tag], for: .normal)
         }
     }
     

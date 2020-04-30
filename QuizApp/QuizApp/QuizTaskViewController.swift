@@ -54,7 +54,14 @@ class QuizTaskViewController: UIViewController {
         bgImage.addMotionEffect(motionEffectGroup)
     }
 
-
+    @IBAction func startQuiz(_ sender: Any) {
+        var questionsView: QuestionsView = .fromNib()
+        questionsView.frame = view.bounds
+        
+        questionsView.setQuestions(questions: quiz.questions)
+        view.addSubview(questionsView)
+    }
+    
     /*
     // MARK: - Navigation
 

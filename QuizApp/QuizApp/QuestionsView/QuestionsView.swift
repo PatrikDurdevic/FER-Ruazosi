@@ -8,14 +8,42 @@
 
 import UIKit
 
-class QuestionsView: UIView {
+class QuestionsView: UIView, UIScrollViewDelegate {
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+    @IBOutlet weak var totalQuestionsLabel: UILabel!
+    @IBOutlet weak var currentQuestionLabel: UILabel!
+    var scrollView: UIScrollView!
+
+    private var questions: [Question]!
+    
+    func setQuestions(questions: [Question]) {
+        self.questions = questions
+        
+        self.totalQuestionsLabel.text = String(questions.count)
+        
+        //scrollView = UIScrollView(frame: CGRect(x: 0, y: 200, width: 320, height: frame.height - 200))
+        scrollView = UIScrollView(frame: CGRect(x: 0, y: 200, width: 320, height: frame.height - 200))
+        print(frame.width)
+        
+        var index: Int = 0
+        for question in questions {
+            let questionView: QuestionView = .fromNib()
+            questionView.frame.size = scrollView.frame.size
+            questionView.setQuestion(question: question)
+            
+            let offset = scrollView.frame.width * CGFloat(index)
+            questionView.frame.origin.x += 320 * CGFloat(index)
+            
+            scrollView.addSubview(questionView)
+            index += 1
+        }
+        scrollView.isUserInteractionEnabled = true
+        scrollView.isScrollEnabled = true
+        scrollView.delegate = self
+        addSubview(scrollView)
     }
-    */
-
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+    }
 }
