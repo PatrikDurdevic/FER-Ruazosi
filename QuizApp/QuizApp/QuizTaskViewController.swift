@@ -26,7 +26,11 @@ class QuizTaskViewController: UIViewController {
             .subscribeOn(MainScheduler.asyncInstance)
             .subscribe(onNext: { response, data in
             DispatchQueue.main.async {
-                self.bgImage.image = UIImage(data: data)
+                UIView.transition(with: self.bgImage,
+                duration: 0.5,
+                options: .transitionCrossDissolve,
+                animations: { self.bgImage.image = UIImage(data: data) },
+                completion: nil)
             }
         }).disposed(by: disposeBag)
         addMotionToBackground()

@@ -10,12 +10,27 @@ import UIKit
 
 class QuestionView: UIView {
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
 
+    @IBOutlet var answerButtons: [UIButton]!
+    @IBOutlet weak var questionLabel: UILabel!
+    private var question: Question!
+    
+    func setQuestion(question: Question) {
+        self.question = question
+        
+        questionLabel.text = question.question
+        for button in answerButtons {
+            button.titleLabel?.text = question.answers[button.tag]
+        }
+    }
+    
+    @IBAction func submitAnswer(_ sender: Any) {
+        let button = sender as! UIButton
+        if button.tag == question.correct_answer {
+            button.backgroundColor = .green
+        } else {
+            button.backgroundColor = .red
+        }
+    }
+    
 }

@@ -12,9 +12,81 @@
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="QuestionView" customModule="QuizApp" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Question" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g4U-Fc-gS2">
+                    <rect key="frame" x="20" y="64" width="374" height="33.5"/>
+                    <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q7v-jW-myI">
+                    <rect key="frame" x="20" y="137.5" width="374" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="DFQ-BD-kO8"/>
+                    </constraints>
+                    <state key="normal" title="First answer"/>
+                    <connections>
+                        <action selector="submitAnswer:" destination="iN0-l3-epB" eventType="touchUpInside" id="Ge4-2a-vU4"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u6H-D6-h7O">
+                    <rect key="frame" x="20" y="195.5" width="374" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="8RW-Gx-p2w"/>
+                    </constraints>
+                    <state key="normal" title="Second answer"/>
+                    <connections>
+                        <action selector="submitAnswer:" destination="iN0-l3-epB" eventType="touchUpInside" id="RWz-BE-bTH"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PU6-Xd-pLj">
+                    <rect key="frame" x="20" y="253.5" width="374" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="HOW-vN-aeL"/>
+                    </constraints>
+                    <state key="normal" title="Third answer"/>
+                    <connections>
+                        <action selector="submitAnswer:" destination="iN0-l3-epB" eventType="touchUpInside" id="gYM-23-kN6"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kr4-sC-Afu">
+                    <rect key="frame" x="20" y="311.5" width="374" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="MoY-DC-o1P"/>
+                    </constraints>
+                    <state key="normal" title="Second answer"/>
+                    <connections>
+                        <action selector="submitAnswer:" destination="iN0-l3-epB" eventType="touchUpInside" id="LFE-8L-bdD"/>
+                    </connections>
+                </button>
+            </subviews>
             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <constraints>
+                <constraint firstItem="q7v-jW-myI" firstAttribute="top" secondItem="g4U-Fc-gS2" secondAttribute="bottom" constant="40" id="1fn-YU-Y70"/>
+                <constraint firstItem="q7v-jW-myI" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="BhX-pN-jqR"/>
+                <constraint firstItem="PU6-Xd-pLj" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="BzI-VV-y1f"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="u6H-D6-h7O" secondAttribute="trailing" constant="20" id="G3J-bs-4yB"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="PU6-Xd-pLj" secondAttribute="trailing" constant="20" id="H6v-YR-uGX"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="q7v-jW-myI" secondAttribute="trailing" constant="20" id="Iar-C8-InJ"/>
+                <constraint firstItem="g4U-Fc-gS2" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="P1i-LU-8MR"/>
+                <constraint firstItem="kr4-sC-Afu" firstAttribute="top" secondItem="PU6-Xd-pLj" secondAttribute="bottom" constant="8" id="RbU-bW-win"/>
+                <constraint firstItem="kr4-sC-Afu" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="W0X-eZ-bew"/>
+                <constraint firstItem="u6H-D6-h7O" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="ZfC-a1-C4k"/>
+                <constraint firstItem="u6H-D6-h7O" firstAttribute="top" secondItem="q7v-jW-myI" secondAttribute="bottom" constant="8" id="dgf-7Y-whF"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="kr4-sC-Afu" secondAttribute="trailing" constant="20" id="e1O-SQ-r65"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="g4U-Fc-gS2" secondAttribute="trailing" constant="20" id="lb0-Ub-RA7"/>
+                <constraint firstItem="PU6-Xd-pLj" firstAttribute="top" secondItem="u6H-D6-h7O" secondAttribute="bottom" constant="8" id="qsT-jH-lcI"/>
+                <constraint firstItem="g4U-Fc-gS2" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="20" id="yY0-Q8-wKN"/>
+            </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
-            <point key="canvasLocation" x="139" y="90"/>
+            <connections>
+                <outlet property="questionLabel" destination="g4U-Fc-gS2" id="FPg-Wg-nFi"/>
+                <outletCollection property="answerButtons" destination="PU6-Xd-pLj" collectionClass="NSMutableArray" id="Eo6-Kq-yL0"/>
+                <outletCollection property="answerButtons" destination="kr4-sC-Afu" collectionClass="NSMutableArray" id="kfu-06-UoI"/>
+                <outletCollection property="answerButtons" destination="u6H-D6-h7O" collectionClass="NSMutableArray" id="GBV-d8-8U1"/>
+                <outletCollection property="answerButtons" destination="q7v-jW-myI" collectionClass="NSMutableArray" id="LER-jm-yQB"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="89.732142857142847"/>
         </view>
     </objects>
 </document>

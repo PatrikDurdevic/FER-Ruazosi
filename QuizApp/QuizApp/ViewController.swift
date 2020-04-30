@@ -126,6 +126,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         navigationController.modalTransitionStyle = .crossDissolve
         navigationController.modalPresentationStyle = .fullScreen
         navigationController.navigationBar.prefersLargeTitles = true
+        navigationController.navigationBar.tintColor = .white
         present(navigationController, animated: true, completion: nil)
     }
     
