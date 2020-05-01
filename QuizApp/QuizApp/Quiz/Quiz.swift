@@ -76,3 +76,8 @@ struct Question: Codable {
     var id: Int
     var question: String
 }
+
+struct Score: Codable {
+    var score: String
+    var username: String
+}

@@ -121,13 +121,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     func presentQuiz() {
-        let quizVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "Quiz") as! QuizViewController
-        let navigationController = UINavigationController(rootViewController: quizVC)
-        navigationController.modalTransitionStyle = .crossDissolve
-        navigationController.modalPresentationStyle = .fullScreen
-        navigationController.navigationBar.prefersLargeTitles = true
-        navigationController.navigationBar.tintColor = .white
-        present(navigationController, animated: true, completion: nil)
+        present(ViewController.getApp(), animated: true, completion: nil)
     }
     
     @IBAction func seePassword(_ sender: Any) {

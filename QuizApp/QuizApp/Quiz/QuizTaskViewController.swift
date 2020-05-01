@@ -64,6 +64,11 @@ class QuizTaskViewController: UIViewController {
         currentWindow?.addSubview(questionsView)
     }
     
+    @IBAction func showLeaderboard(_ sender: Any) {
+        let leaderboardVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "LeaderboardVC") as! LeaderboardViewController
+        leaderboardVC.quiz = quiz
+        self.navigationController!.pushViewController(leaderboardVC, animated: true)
+    }
     /*
     // MARK: - Navigation
 

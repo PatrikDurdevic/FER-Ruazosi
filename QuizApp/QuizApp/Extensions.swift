@@ -68,3 +68,21 @@ extension UIView {
         return Bundle(for: T.self).loadNibNamed(String(describing: T.self), owner: nil, options: nil)![0] as! T
     }
 }
+
+extension ViewController {
+    static func getApp() -> UITabBarController {
+        let tabBarController = UITabBarController()
+        tabBarController.modalTransitionStyle = .crossDissolve
+        tabBarController.modalPresentationStyle = .fullScreen
+        
+        let quizVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "Quiz") as! QuizViewController
+        let quizNC = UINavigationController(rootViewController: quizVC)
+        quizNC.navigationBar.prefersLargeTitles = true
+        //quizNC.navigationBar.tintColor = .white
+        quizNC.tabBarItem = UITabBarItem(tabBarSystemItem: .featured, tag: 0)
+        quizNC.tabBarItem.title = "Quiz"
+        tabBarController.addChild(quizNC)
+        
+        return tabBarController
+    }
+}
