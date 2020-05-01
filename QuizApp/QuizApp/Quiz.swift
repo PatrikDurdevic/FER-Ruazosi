@@ -34,17 +34,19 @@ struct Quiz: Codable {
     
     func reportScore(time: Double, numberCorrect: Int) {
         let token = UserDefaults.standard.value(forKey: "token") as! [String : Any]
-        let url = URL(string: "https://iosquiz.herokuapp.com/api/result")!
-        var request = URLRequest(url: url)
+        
+        var request = URLRequest(url: URL(string: "https://iosquiz.herokuapp.com/api/result")!)
         request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue(token["token"] as! String, forHTTPHeaderField: "Authorization")
+        print(token["token"] as! String)
         let parameters: [String: Any] = [
             "quiz_id": id,
             "user_id": (token["user_id"] as! Int),
             "time": time,
             "no_of_correct": numberCorrect
         ]
-        request.httpBody = parameters.percentEncoded()
-        print(String(decoding: request.httpBody!, as: UTF8.self))
+        request.httpBody = parameters.convertToHTTPBody()
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data,

@@ -52,6 +52,17 @@ extension String {
     }
 }
 
+extension Dictionary where Key == String {
+    func convertToHTTPBody() -> Data {
+        do {
+            return try JSONSerialization.data(withJSONObject: self, options: .prettyPrinted)
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        return Data()
+    }
+}
+
 extension UIView {
     class func fromNib<T: UIView>() -> T {
         return Bundle(for: T.self).loadNibNamed(String(describing: T.self), owner: nil, options: nil)![0] as! T

@@ -107,7 +107,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
             if let responseString = String(data: data, encoding: .utf8) {
                 DispatchQueue.main.async {
-                    self.loginSuccess(token: responseString.convertToDictionary())
+                    self.loginSuccess(token: responseString.convertToDictionary(), tokenString: responseString)
                 }
             }
         }
@@ -115,7 +115,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         task.resume()
     }
     
-    func loginSuccess(token: [String: Any]?) {
+    func loginSuccess(token: [String: Any]?, tokenString: String) {
         UserDefaults.standard.set(token, forKey: "token")
         presentQuiz()
     }
