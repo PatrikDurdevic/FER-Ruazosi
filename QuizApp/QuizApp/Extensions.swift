@@ -86,3 +86,13 @@ extension ViewController {
         return tabBarController
     }
 }
+
+extension CAGradientLayer {
+    func setColor(userInterfaceStyle: UIUserInterfaceStyle) {
+        if userInterfaceStyle == .dark {
+            self.colors = [UIColor(rgb: 0x65799B).cgColor, UIColor(rgb: 0x5E2563).cgColor]
+        } else {
+            self.colors = [UIColor(rgb: 0xF54EA2).cgColor, UIColor(rgb: 0xFF7676).cgColor]
+        }
+    }
+}

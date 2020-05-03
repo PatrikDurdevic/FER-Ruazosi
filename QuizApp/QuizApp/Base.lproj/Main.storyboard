@@ -271,6 +271,21 @@
             </objects>
             <point key="canvasLocation" x="984.79999999999995" y="114.53201970443351"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="FV8-9m-e91">
+            <objects>
+                <viewController id="yxO-YR-1zw" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="egu-8W-NFg">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="Axl-LE-uXg"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HGp-dR-zq8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="978" y="823"/>
+        </scene>
         <!--Quiz Task View Controller-->
         <scene sceneID="qlB-s7-6vz">
             <objects>
@@ -487,7 +502,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YrK-E0-7px" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1811" y="798"/>
+            <point key="canvasLocation" x="2551" y="116"/>
         </scene>
     </scenes>
     <resources>

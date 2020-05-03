@@ -2,7 +2,7 @@
 //  LeaderboardTableViewCell.swift
 //  QuizApp
 //
-//  Created by Tea Durdevic on 01/05/2020.
+//  Created by Patrik Durdevic on 01/05/2020.
 //  Copyright © 2020 Patrik Đurđević. All rights reserved.
 //
 

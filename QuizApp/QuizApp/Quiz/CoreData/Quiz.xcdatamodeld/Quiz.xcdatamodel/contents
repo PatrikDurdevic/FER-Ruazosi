@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19E266" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="QuestionEntity" representedClassName="QuestionEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="answers" attributeType="Transformable" valueTransformerName="" customClassName="[String]"/>
+        <attribute name="correct_answer" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="question" attributeType="String"/>
+        <relationship name="quiz" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="QuizEntity" inverseName="questions" inverseEntity="QuizEntity"/>
+    </entity>
+    <entity name="QuizEntity" representedClassName="QuizEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="category" attributeType="String"/>
+        <attribute name="desc" attributeType="String"/>
+        <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="image" attributeType="String"/>
+        <attribute name="level" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="title" attributeType="String"/>
+        <relationship name="questions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="QuestionEntity" inverseName="quiz" inverseEntity="QuestionEntity"/>
+    </entity>
+    <elements>
+        <element name="QuestionEntity" positionX="-54" positionY="36" width="128" height="118"/>
+        <element name="QuizEntity" positionX="-63" positionY="-18" width="128" height="148"/>
+    </elements>
+</model>

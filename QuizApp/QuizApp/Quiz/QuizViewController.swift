@@ -16,7 +16,8 @@ class QuizViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     private var gradientLayer = CAGradientLayer()
     private var disposeBag = DisposeBag()
-    private var quizzes: [Quiz] = []
+    private var quizzes: Quizzes = Quizzes(value: [])
+    private var sections: BehaviorRelay<[QuizSection]> = BehaviorRelay(value: [])
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,10 +25,14 @@ class QuizViewController: UIViewController {
         navigationItem.title = "PopQuiz"
         
         loadQuizzes()
+        initTableView()
+        quizzes.value.subscribe(onNext: {
+            self.updateQuizzes(quizzes: $0)
+        }).disposed(by: disposeBag)
     }
     
     override func viewDidLayoutSubviews() {
-        initBG()
+        //initBG()
     }
     
     func initBG() {
@@ -35,11 +40,7 @@ class QuizViewController: UIViewController {
             gradientLayer.removeFromSuperlayer()
         }
 
-        if self.traitCollection.userInterfaceStyle == .dark {
-            gradientLayer.colors = [UIColor(rgb: 0x65799B).cgColor, UIColor(rgb: 0x5E2563).cgColor]
-        } else {
-            gradientLayer.colors = [UIColor(rgb: 0xF54EA2).cgColor, UIColor(rgb: 0xFF7676).cgColor]
-        }
+        gradientLayer.setColor(userInterfaceStyle: self.traitCollection.userInterfaceStyle)
         gradientLayer.frame = view.bounds
         let backgroundView = UIView(frame: view.bounds)
         backgroundView.layer.insertSublayer(gradientLayer, at: 0)
@@ -53,14 +54,28 @@ class QuizViewController: UIViewController {
             do {
                 let jsonData = try JSONSerialization.data(withJSONObject: (json as! NSDictionary)["quizzes"]!)
                 let quizzes = try JSONDecoder().decode([Quiz].self, from: jsonData)
-                self.quizzes = quizzes
                 DispatchQueue.main.async {
-                    self.initTableView()
+                    self.quizzes.value.accept(quizzes)
                 }
             } catch {
                 print(error.localizedDescription)
             }
         }).disposed(by: disposeBag)
+    }
+    
+    func updateQuizzes(quizzes: [Quiz]) {
+        var uniqueCategories:[String] = []
+        for quiz in quizzes {
+            if !uniqueCategories.contains(quiz.category) {
+                uniqueCategories.append(quiz.category)
+            }
+        }
+        
+        var tmpSections: [QuizSection] = []
+        for category in uniqueCategories {
+            tmpSections.append(QuizSection(header: category, items: quizzes.filter({ $0.category == category })))
+        }
+        sections.accept(tmpSections)
     }
     
     func initTableView() {
@@ -75,20 +90,8 @@ class QuizViewController: UIViewController {
         dataSource.titleForHeaderInSection = { dataSource, index in
             return dataSource.sectionModels[index].header
         }
-        
-        var uniqueCategories:[String] = []
-        for quiz in quizzes {
-            if !uniqueCategories.contains(quiz.category) {
-                uniqueCategories.append(quiz.category)
-            }
-        }
-        
-        var sections:[QuizSection] = []
-        for category in uniqueCategories {
-            sections.append(QuizSection(header: category, items: quizzes.filter({ $0.category == category })))
-        }
 
-        Observable.just(sections)
+        sections
         .bind(to: tableView.rx.items(dataSource: dataSource))
         .disposed(by: disposeBag)
         
