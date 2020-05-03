@@ -22,10 +22,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var imageInfoLabel: UILabel!
     
+    private var firstTime = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        addMotionToBackground()
+        addMotionToBackground(backgroundImage: backgroundImage)
         loadBackgrounds()
         bgTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(changeBackgroundImage), userInfo: nil, repeats: true)
         let tapRecognizer = TapGestureRecognizer {
@@ -35,7 +37,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        initTextFieldDesign()
+        if firstTime {
+            initTextFieldDesign()
+            firstTime = false
+        }
         
         if let _ = UserDefaults.standard.object(forKey: "token") {
             self.presentQuiz()
@@ -83,6 +88,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             "password": passwordField.text!
         ]
         request.httpBody = parameters.percentEncoded()
+        UserDefaults.standard.set(usernameField.text!, forKey: "username")
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data,
@@ -147,24 +153,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         passwordField.layer.addSublayer(passwordBottomline)
         passwordField.isSecureTextEntry = true
         passwordField.delegate = self
-    }
-    
-    func addMotionToBackground() {
-        let min = CGFloat(-30)
-        let max = CGFloat(30)
-              
-        let xMotion = UIInterpolatingMotionEffect(keyPath: "layer.transform.translation.x", type: .tiltAlongHorizontalAxis)
-        xMotion.minimumRelativeValue = min
-        xMotion.maximumRelativeValue = max
-              
-        let yMotion = UIInterpolatingMotionEffect(keyPath: "layer.transform.translation.y", type: .tiltAlongVerticalAxis)
-        yMotion.minimumRelativeValue = min
-        yMotion.maximumRelativeValue = max
-              
-        let motionEffectGroup = UIMotionEffectGroup()
-        motionEffectGroup.motionEffects = [xMotion,yMotion]
-
-        backgroundImage.addMotionEffect(motionEffectGroup)
     }
     
     func loadBackgrounds() {

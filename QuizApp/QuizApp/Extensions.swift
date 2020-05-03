@@ -69,7 +69,7 @@ extension UIView {
     }
 }
 
-extension ViewController {
+extension UIViewController {
     static func getApp() -> UITabBarController {
         let tabBarController = UITabBarController()
         tabBarController.modalTransitionStyle = .crossDissolve
@@ -78,12 +78,41 @@ extension ViewController {
         let quizVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "Quiz") as! QuizViewController
         let quizNC = UINavigationController(rootViewController: quizVC)
         quizNC.navigationBar.prefersLargeTitles = true
-        //quizNC.navigationBar.tintColor = .white
         quizNC.tabBarItem = UITabBarItem(tabBarSystemItem: .featured, tag: 0)
         quizNC.tabBarItem.title = "Quiz"
         tabBarController.addChild(quizNC)
         
+        let searchVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "Search") as! SearchViewController
+        let searchNC = UINavigationController(rootViewController: searchVC)
+        searchNC.navigationBar.prefersLargeTitles = true
+        searchNC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 1)
+        searchNC.tabBarItem.title = "Search"
+        tabBarController.addChild(searchNC)
+        
+        let settingsVC = SettingsViewController(nibName: "SettingsViewController", bundle: nil)
+        settingsVC.tabBarItem = UITabBarItem(tabBarSystemItem: .more, tag: 2)
+        settingsVC.tabBarItem.title = "Settings"
+        tabBarController.addChild(settingsVC)
+        
         return tabBarController
+    }
+    
+    func addMotionToBackground(backgroundImage: UIImageView) {
+        let min = CGFloat(-30)
+        let max = CGFloat(30)
+              
+        let xMotion = UIInterpolatingMotionEffect(keyPath: "layer.transform.translation.x", type: .tiltAlongHorizontalAxis)
+        xMotion.minimumRelativeValue = min
+        xMotion.maximumRelativeValue = max
+              
+        let yMotion = UIInterpolatingMotionEffect(keyPath: "layer.transform.translation.y", type: .tiltAlongVerticalAxis)
+        yMotion.minimumRelativeValue = min
+        yMotion.maximumRelativeValue = max
+              
+        let motionEffectGroup = UIMotionEffectGroup()
+        motionEffectGroup.motionEffects = [xMotion,yMotion]
+
+        backgroundImage.addMotionEffect(motionEffectGroup)
     }
 }
 

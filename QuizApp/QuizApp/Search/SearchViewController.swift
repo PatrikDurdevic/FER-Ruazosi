@@ -1,8 +1,8 @@
 //
-//  QuizViewController.swift
+//  SearchViewController.swift
 //  QuizApp
 //
-//  Created by Patrik Durdevic on 15/04/2020.
+//  Created by Patrik Durdevic on 03/05/2020.
 //  Copyright © 2020 Patrik Đurđević. All rights reserved.
 //
 
@@ -11,42 +11,47 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-class QuizViewController: UIViewController {
+class SearchViewController: UIViewController, UISearchBarDelegate {
 
     @IBOutlet weak var tableView: UITableView!
-    private var gradientLayer = CAGradientLayer()
+    private var searchBar: UISearchBar!
     private var disposeBag = DisposeBag()
+    
     private var sections: BehaviorRelay<[QuizSection]> = BehaviorRelay(value: [])
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        navigationItem.title = "PopQuiz"
         
-        Quizzes.loadQuizzes()
+        navigationItem.title = "PopQuiz"
+
+        searchBar = UISearchBar()
+        searchBar.showsCancelButton = true
+        searchBar.rx.cancelButtonClicked.subscribe(onNext: {
+            self.searchBar.text = ""
+            self.searchBar.endEditing(true)
+            
+        }).disposed(by: disposeBag)
+        searchBar.rx.searchButtonClicked.subscribe(onNext: {
+            self.searchBar.endEditing(true)
+        }).disposed(by: disposeBag)
+        searchBar.placeholder = "Search quizzes..."
+        searchBar.rx.text.orEmpty.throttle(0.5, scheduler: MainScheduler.instance).distinctUntilChanged().subscribe(onNext: {
+            self.updateQuizzes(quizzess: Quizzes.shared.value.value, search: $0)
+        }).disposed(by: disposeBag)
+        self.navigationItem.titleView = searchBar
+        
         initTableView()
         Quizzes.shared.value.subscribe(onNext: {
-            self.updateQuizzes(quizzes: $0)
+            self.updateQuizzes(quizzess: $0, search: "")
         }).disposed(by: disposeBag)
     }
     
-    override func viewDidLayoutSubviews() {
-        //initBG()
-    }
-    
-    func initBG() {
-        if gradientLayer.superlayer != nil {
-            gradientLayer.removeFromSuperlayer()
+    func updateQuizzes(quizzess: [Quiz], search: String) {
+        var quizzes = quizzess
+        if search.count > 0 {
+            quizzes = quizzes.filter { $0.title.contains(search) }
         }
-
-        gradientLayer.setColor(userInterfaceStyle: self.traitCollection.userInterfaceStyle)
-        gradientLayer.frame = view.bounds
-        let backgroundView = UIView(frame: view.bounds)
-        backgroundView.layer.insertSublayer(gradientLayer, at: 0)
-        tableView.backgroundView = backgroundView
-    }
-    
-    func updateQuizzes(quizzes: [Quiz]) {
+        
         var uniqueCategories:[String] = []
         for quiz in quizzes {
             if !uniqueCategories.contains(quiz.category) {
@@ -88,14 +93,5 @@ class QuizViewController: UIViewController {
         }
         .disposed(by: disposeBag)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

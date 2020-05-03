@@ -33,25 +33,7 @@ class QuizTaskViewController: UIViewController {
                 completion: nil)
             }
         }).disposed(by: disposeBag)
-        addMotionToBackground()
-    }
-    
-    func addMotionToBackground() {
-        let min = CGFloat(-30)
-        let max = CGFloat(30)
-              
-        let xMotion = UIInterpolatingMotionEffect(keyPath: "layer.transform.translation.x", type: .tiltAlongHorizontalAxis)
-        xMotion.minimumRelativeValue = min
-        xMotion.maximumRelativeValue = max
-              
-        let yMotion = UIInterpolatingMotionEffect(keyPath: "layer.transform.translation.y", type: .tiltAlongVerticalAxis)
-        yMotion.minimumRelativeValue = min
-        yMotion.maximumRelativeValue = max
-              
-        let motionEffectGroup = UIMotionEffectGroup()
-        motionEffectGroup.motionEffects = [xMotion,yMotion]
-
-        bgImage.addMotionEffect(motionEffectGroup)
+        addMotionToBackground(backgroundImage: bgImage)
     }
 
     @IBAction func startQuiz(_ sender: Any) {

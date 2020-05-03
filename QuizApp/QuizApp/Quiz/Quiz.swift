@@ -27,6 +27,24 @@ extension QuizSection: SectionModelType {
 }
 
 class Quizzes {
+    static var shared = Quizzes(value: [])
+    
+    static func loadQuizzes() {
+        let req = URLRequest(url: URL(string: "https://iosquiz.herokuapp.com/api/quizzes")!)
+        let responseJSON = URLSession.shared.rx.json(request: req)
+        responseJSON.subscribe(onNext: { json in
+            do {
+                let jsonData = try JSONSerialization.data(withJSONObject: (json as! NSDictionary)["quizzes"]!)
+                let quizzes = try JSONDecoder().decode([Quiz].self, from: jsonData)
+                DispatchQueue.main.async {
+                    Quizzes.shared.value.accept(quizzes)
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+        }).disposed(by: DisposeBag())
+    }
+    
     var value: BehaviorRelay<[Quiz]>
     private var disposeBag = DisposeBag()
     
