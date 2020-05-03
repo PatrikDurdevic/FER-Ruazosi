@@ -28,7 +28,7 @@ class LeaderboardViewController: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        initBG()
+        //initBG()
     }
     
     func initBG() {
