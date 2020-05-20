@@ -13,7 +13,9 @@ class QuizTableViewCell: UITableViewCell {
 
     @IBOutlet weak var quizImageView: UIImageView!
     @IBOutlet weak var quizTitleLabel: UILabel!
-    @IBOutlet weak var difficultyBar: UIProgressView!
+    
+    @IBOutlet var starsImageView: [UIImageView]!
+    
     @IBOutlet weak var quizDescriptionLabel: UILabel!
     private var disposeBag = DisposeBag()
     
@@ -28,7 +30,13 @@ class QuizTableViewCell: UITableViewCell {
     func configureWithQuiz(quiz: Quiz) {
         quizTitleLabel.text = quiz.title
         quizDescriptionLabel.text = quiz.description
-        difficultyBar.progress = ((Float(quiz.level) - 1) / 2) * 0.8 + 0.1
+        for star in starsImageView {
+            if star.tag <= quiz.level {
+                star.isHidden = false
+            } else {
+                star.isHidden = true
+            }
+        }
         
         URLSession.shared.rx
             .response(request: URLRequest(url: URL(string: quiz.image)!))
