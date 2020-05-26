@@ -74,19 +74,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		8D379955245C4821003068DA /* Quiz */ = {
+		8D379955245C4821003068DA /* Frontend */ = {
 			isa = PBXGroup;
 			children = (
-				8DA90D65245AF6DE008FC028 /* Quiz.swift */,
-				8D37C909245EBFBC00A0A4A4 /* CoreData */,
-				8DA95FE8244745640088D345 /* QuizViewController.swift */,
 				8DA90D67245AFC63008FC028 /* QuizTableViewCell.swift */,
 				8DD3AAAA245B1188004CF309 /* QuizTaskViewController.swift */,
 				8D37995A245C4861003068DA /* Leaderboard */,
 				8D899B5C245B5ACB0056F7EE /* QuestionsView */,
 				8DD3AAA9245B10D4004CF309 /* QuestionView */,
 			);
-			path = Quiz;
+			path = Frontend;
 			sourceTree = "<group>";
 		};
 		8D37995A245C4861003068DA /* Leaderboard */ = {
@@ -98,12 +95,13 @@
 			path = Leaderboard;
 			sourceTree = "<group>";
 		};
-		8D37C909245EBFBC00A0A4A4 /* CoreData */ = {
+		8D37C909245EBFBC00A0A4A4 /* Quiz */ = {
 			isa = PBXGroup;
 			children = (
-				8D75F0D0245EBCFE00AC5FE0 /* Quiz.xcdatamodeld */,
+				8DAF171A247D2EF000A2D0A3 /* Backend */,
+				8D379955245C4821003068DA /* Frontend */,
 			);
-			path = CoreData;
+			path = Quiz;
 			sourceTree = "<group>";
 		};
 		8D899B5C245B5ACB0056F7EE /* QuestionsView */ = {
@@ -113,6 +111,33 @@
 				8D899B5A245B5AC70056F7EE /* QuestionsView.xib */,
 			);
 			path = QuestionsView;
+			sourceTree = "<group>";
+		};
+		8DAF1718247D2EB300A2D0A3 /* Tabs */ = {
+			isa = PBXGroup;
+			children = (
+				8DAF1719247D2ED100A2D0A3 /* Main */,
+				8DDE3078245F51BF00D4F493 /* Search */,
+				8DDE3073245F4DD000D4F493 /* Settings */,
+			);
+			path = Tabs;
+			sourceTree = "<group>";
+		};
+		8DAF1719247D2ED100A2D0A3 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				8DA95FE8244745640088D345 /* QuizViewController.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		8DAF171A247D2EF000A2D0A3 /* Backend */ = {
+			isa = PBXGroup;
+			children = (
+				8D75F0D0245EBCFE00AC5FE0 /* Quiz.xcdatamodeld */,
+				8DA90D65245AF6DE008FC028 /* Quiz.swift */,
+			);
+			path = Backend;
 			sourceTree = "<group>";
 		};
 		8DB589542440E9D70045180D = {
@@ -140,9 +165,8 @@
 				8DB589622440E9D70045180D /* SceneDelegate.swift */,
 				8DA95FEA24474A5C0088D345 /* Extensions.swift */,
 				8DB589642440E9D70045180D /* ViewController.swift */,
-				8DDE3078245F51BF00D4F493 /* Search */,
-				8DDE3073245F4DD000D4F493 /* Settings */,
-				8D379955245C4821003068DA /* Quiz */,
+				8DAF1718247D2EB300A2D0A3 /* Tabs */,
+				8D37C909245EBFBC00A0A4A4 /* Quiz */,
 				8DB589662440E9D70045180D /* Main.storyboard */,
 				8DC15A752440F5E600E4B497 /* Backgrounds.plist */,
 				8DB589692440E9DA0045180D /* Assets.xcassets */,
