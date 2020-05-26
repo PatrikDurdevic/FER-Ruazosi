@@ -26,12 +26,13 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
 
         searchBar = UISearchBar()
         searchBar.showsCancelButton = true
-        searchBar.rx.cancelButtonClicked.subscribe(onNext: {
+        searchBar.rx.cancelButtonClicked.subscribe(onNext: { [weak self] in
+            guard let self = self else { return }
             self.searchBar.text = ""
             self.searchBar.endEditing(true)
-            
         }).disposed(by: disposeBag)
-        searchBar.rx.searchButtonClicked.subscribe(onNext: {
+        searchBar.rx.searchButtonClicked.subscribe(onNext: { [weak self] in
+            guard let self = self else { return }
             self.searchBar.endEditing(true)
         }).disposed(by: disposeBag)
         searchBar.placeholder = "Search quizzes..."
@@ -41,7 +42,8 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
         self.navigationItem.titleView = searchBar
         
         initTableView()
-        Quizzes.shared.value.subscribe(onNext: {
+        Quizzes.shared.value.subscribe(onNext: { [weak self] in
+        guard let self = self else { return }
             self.updateQuizzes(quizzess: $0, search: "")
         }).disposed(by: disposeBag)
     }

@@ -70,6 +70,9 @@ extension UIView {
 }
 
 extension UIViewController {
+    /*
+     Main ViewController seperate file
+    */
     static func getApp() -> UITabBarController {
         let tabBarController = UITabBarController()
         tabBarController.modalTransitionStyle = .crossDissolve

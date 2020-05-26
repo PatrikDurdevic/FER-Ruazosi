@@ -25,7 +25,8 @@ class QuizViewController: UIViewController {
         
         Quizzes.loadQuizzes()
         initTableView()
-        Quizzes.shared.value.subscribe(onNext: {
+        Quizzes.shared.value.subscribe(onNext: { [weak self] in
+            guard let self = self else { return }
             self.updateQuizzes(quizzes: $0)
         }).disposed(by: disposeBag)
     }
@@ -88,14 +89,5 @@ class QuizViewController: UIViewController {
         }
         .disposed(by: disposeBag)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

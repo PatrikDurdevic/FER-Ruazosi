@@ -36,6 +36,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
         view.addGestureRecognizer(tapRecognizer)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        buttonView.alpha = 1
+        usernameField.text = ""
+        passwordField.text = ""
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         if firstTime {
             initTextFieldDesign()
@@ -139,20 +145,18 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     func initTextFieldDesign() {
-        let usernameBottomLine = CALayer()
-        usernameBottomLine.frame = CGRect(x: 0.0, y: usernameField.frame.height - 1, width: usernameField.frame.width, height: 1.0)
-        usernameBottomLine.backgroundColor = UIColor.white.cgColor
-        usernameField.borderStyle = UITextField.BorderStyle.none
-        usernameField.layer.addSublayer(usernameBottomLine)
-        usernameField.delegate = self
-        
-        let passwordBottomline = CALayer()
-        passwordBottomline.frame = CGRect(x: 0.0, y: passwordField.frame.height - 1, width: passwordField.frame.width, height: 1.0)
-        passwordBottomline.backgroundColor = UIColor.white.cgColor
-        passwordField.borderStyle = UITextField.BorderStyle.none
-        passwordField.layer.addSublayer(passwordBottomline)
-        passwordField.isSecureTextEntry = true
-        passwordField.delegate = self
+        initTextField(field: usernameField)
+        initTextField(field: passwordField)
+    }
+    
+    func initTextField(field: UITextField) {
+        let bottomLine = CALayer()
+        bottomLine.frame = CGRect(x: 0.0, y: field.frame.height - 1, width: field.frame.width, height: 1.0)
+        bottomLine.backgroundColor = UIColor.white.cgColor
+        field.borderStyle = UITextField.BorderStyle.none
+        field.layer.addSublayer(bottomLine)
+        field.isSecureTextEntry = true
+        field.delegate = self
     }
     
     func loadBackgrounds() {

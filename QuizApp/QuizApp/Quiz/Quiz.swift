@@ -26,8 +26,14 @@ extension QuizSection: SectionModelType {
   }
 }
 
+/*
+ QuizService za fetchanje vraća observale [Quiz]
+ Receive on umjesto DispatchQueue.main.async
+*/
+
 class Quizzes {
     static var shared = Quizzes(value: [])
+    static var disposeBag = DisposeBag()
     
     static func loadQuizzes() {
         let req = URLRequest(url: URL(string: "https://iosquiz.herokuapp.com/api/quizzes")!)
@@ -42,7 +48,7 @@ class Quizzes {
             } catch {
                 print(error.localizedDescription)
             }
-        }).disposed(by: DisposeBag())
+        }).disposed(by: disposeBag)
     }
     
     var value: BehaviorRelay<[Quiz]>
@@ -50,21 +56,19 @@ class Quizzes {
     
     init(value: [Quiz]) {
         self.value = BehaviorRelay(value: value)
-        DispatchQueue.main.async {
-            if value.count == 0 {
-                self.load()
-            }
+        if value.count == 0 {
+            self.load()
         }
         
-        self.value.subscribe(onNext: { quizzes in
-            DispatchQueue.main.async {
-                // Theer is a better way than just deleting all of the data, but for the small amount of data it's the easiest to implement
+        self.value
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { quizzes in
+                // There is a better way than just deleting all of the data, but for the small amount of data it's the easiest to implement
                 self.deleteAllData("QuizEntity")
                 self.deleteAllData("QuestionEntity")
                 for q in quizzes {
                     self.save(q: q)
                 }
-            }
         }).disposed(by: disposeBag)
     }
     

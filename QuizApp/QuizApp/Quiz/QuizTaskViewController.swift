@@ -21,18 +21,20 @@ class QuizTaskViewController: UIViewController {
         super.viewDidLoad()
 
         quizTitleLabel.text = quiz.title
+        // Weak self
+        // guard self return
         URLSession.shared.rx
             .response(request: URLRequest(url: URL(string: quiz.image)!))
-            .subscribeOn(MainScheduler.asyncInstance)
-            .subscribe(onNext: { response, data in
-            DispatchQueue.main.async {
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: { [weak self] response, data in
+                guard let self = self else { return }
                 UIView.transition(with: self.bgImage,
                 duration: 0.5,
                 options: .transitionCrossDissolve,
                 animations: { self.bgImage.image = UIImage(data: data) },
                 completion: nil)
-            }
         }).disposed(by: disposeBag)
+
         addMotionToBackground(backgroundImage: bgImage)
     }
 
