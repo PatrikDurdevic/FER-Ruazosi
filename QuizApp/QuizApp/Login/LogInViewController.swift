@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate {
+class LogInViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var backgroundImage: UIImageView!
     var backgrounds: NSDictionary?
@@ -133,7 +133,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     func presentQuiz() {
-        present(ViewController.getApp(), animated: true, completion: nil)
+        present(AppViewController(), animated: true, completion: nil)
     }
     
     @IBAction func seePassword(_ sender: Any) {
