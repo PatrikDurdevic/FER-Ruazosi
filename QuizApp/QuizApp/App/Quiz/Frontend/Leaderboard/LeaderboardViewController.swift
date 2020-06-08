@@ -53,7 +53,8 @@ class LeaderboardViewController: UIViewController {
         print(request)
         
         let responseJSON = URLSession.shared.rx.json(request: request)
-        responseJSON.subscribe(onNext: { json in
+        responseJSON.subscribe(onNext: { [weak self] json in
+            guard let self = self else { return }
             do {
                 print(json)
                 let jsonData = try JSONSerialization.data(withJSONObject: json)

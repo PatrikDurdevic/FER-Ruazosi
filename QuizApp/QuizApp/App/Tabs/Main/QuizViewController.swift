@@ -23,7 +23,6 @@ class QuizViewController: UIViewController {
 
         navigationItem.title = "PopQuiz"
         
-        Quizzes.loadQuizzes()
         initTableView()
         Quizzes.shared.value.subscribe(onNext: { [weak self] in
             guard let self = self else { return }
