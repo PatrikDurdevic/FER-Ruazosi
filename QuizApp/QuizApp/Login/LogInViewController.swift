@@ -37,7 +37,10 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        buttonView.alpha = 1
+        buttonView.alpha = 0
+        usernameField.alpha = 0
+        passwordField.alpha = 0
+        
         usernameField.text = ""
         passwordField.text = ""
     }
@@ -51,6 +54,26 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         if let _ = UserDefaults.standard.object(forKey: "token") {
             self.presentQuiz()
         }
+        
+        
+        /*
+         Moglo se i sa constraintima, bilo bi ljepše i stabilnije
+         */
+        buttonView.frame.origin.x -= 200
+        usernameField.frame.origin.x -= 200
+        passwordField.frame.origin.x -= 200
+        UIView.animate(withDuration: 1, delay: 0, options: .curveEaseInOut, animations: {
+            self.usernameField.alpha = 1
+            self.usernameField.frame.origin.x += 200
+        })
+        UIView.animate(withDuration: 1, delay: 0.25, options: .curveEaseInOut, animations: {
+            self.passwordField.alpha = 1
+            self.passwordField.frame.origin.x += 200
+        }, completion: nil)
+        UIView.animate(withDuration: 1, delay: 0.5, options: .curveEaseInOut, animations: {
+            self.buttonView.alpha = 1
+            self.buttonView.frame.origin.x += 200
+        }, completion: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -133,7 +156,24 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     }
     
     func presentQuiz() {
-        present(AppViewController(), animated: true, completion: nil)
+        UIView.animate(withDuration: 1, delay: 0, options: .curveEaseInOut, animations: {
+            self.usernameField.alpha = 0
+            self.usernameField.frame.origin.x += 200
+        })
+        UIView.animate(withDuration: 1, delay: 0.25, options: .curveEaseInOut, animations: {
+            self.passwordField.alpha = 0
+            self.passwordField.frame.origin.x += 200
+        }, completion: nil)
+        UIView.animate(withDuration: 1, delay: 0.5, options: .curveEaseInOut, animations: {
+            self.buttonView.alpha = 0
+            self.buttonView.frame.origin.x += 200
+        }, completion: { (value) in
+            self.present(AppViewController(), animated: true, completion: { () in
+                self.usernameField.frame.origin.x -= 200
+                self.passwordField.frame.origin.x -= 200
+                self.buttonView.frame.origin.x -= 200
+            })
+        })
     }
     
     @IBAction func seePassword(_ sender: Any) {
@@ -147,6 +187,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     func initTextFieldDesign() {
         initTextField(field: usernameField)
         initTextField(field: passwordField)
+        passwordField.isSecureTextEntry = true
     }
     
     func initTextField(field: UITextField) {
@@ -155,7 +196,6 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         bottomLine.backgroundColor = UIColor.white.cgColor
         field.borderStyle = UITextField.BorderStyle.none
         field.layer.addSublayer(bottomLine)
-        field.isSecureTextEntry = true
         field.delegate = self
     }
     
